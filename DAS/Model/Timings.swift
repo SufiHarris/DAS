@@ -33,7 +33,7 @@ struct TeachersList : Codable , Hashable {
 }
 
 // MARK: - Timeslot
-struct Timeslot : Codable , Hashable {
+struct Timeslot : Codable , Hashable  {
     let timeslotId: Int?
     let status: String?
     let startTime, endTime: String?

@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+struct selected {
+    let tID : Int
+    let selctedSlot : Timeslot
+}
+
 struct BookAppointment: View {
     @ObservedObject var vm : BookViewModel = BookViewModel()
     @State var ward : String = "Select Ward"
@@ -14,11 +19,15 @@ struct BookAppointment: View {
     @State var ptmId : String = ""
     @State var childId : String = ""
     @State var bgColor : Color = .white
+    @State var showError : Bool = false
+    @State private var selectedTimeSlots: [Int: Timeslot?] = [:]
+    @State private var selectedTeacherID: Int?
+    @State private var selectedTimeslotID: Int?
 
-    @State private var selectedTimeSlot: Timeslot
     var body: some View {
         VStack {
             Header(title: "Book Appointment")
+                .padding(.top , 0)
             BookButton(title: "Book")
                 .padding(.leading ,  UIScreen.main.bounds.width / 2)
             HStack {
@@ -103,11 +112,11 @@ struct BookAppointment: View {
             Divider()
             
             bookingView
-
-            
-            
             Spacer()
         }
+        .alert(isPresented: $showError) {
+            Alert(title: Text("No date found") ,message : Text("There is no PTM for this ward on this date.Please try to select a different date or ward.") ,dismissButton: .cancel())
+                   }
   
     }
 }
@@ -132,11 +141,13 @@ extension BookAppointment {
                           })?.ptmId {
                            childId = "\(selectedChildId)"
                            ptmId = "\(selectedPtmId)"
-                           print(childId)
-                           print(ptmId)
-                           vm.getTimings(ptmId: ptmId, childId: childId)
+                           vm.getTimings(ptmId: ptmId, childId: childId)  { error in
+                               if (error != nil) {
+                                   showError.toggle()
+                               }
+                           
+                           }
                        }
-                 //  vm.getTimings(ptmId: ptmId, childId: childId)
                }
            
     }
@@ -144,7 +155,6 @@ extension BookAppointment {
 
 
 extension BookAppointment {
-    
     private var bookingView : some View {
         HStack {
             VStack(alignment: .leading) {
@@ -153,33 +163,29 @@ extension BookAppointment {
                         Text(teacher.teacherName ?? "")
                             .font(.subheadline)
                             .padding()
-                           // .padding(.vertical)
+                        // .padding(.vertical)
                     }
                 }
             }
             VStack {
-                       if let data = vm.timings?.data?[0].teachers_List {
-                           ForEach(data, id: \.self) { teacher in
-                               ScrollView(.horizontal) {
-                                   HStack {
-                                       if let timeSlots = teacher.timeslots {
-                                           ForEach(timeSlots, id: \.self) { data in
-                                               timingContainer(time: data, isSelected: selectedTimeSlot == data)
-                                                   .background(selectedTimeSlot == data ? .accent : .white)
-                                                   .onTapGesture {
-                                                       if data.status == "Available" {
-                                                           selectedTimeSlot = data
-                                                       } else {
-                                                           selectedTimeSlot = nil
-                                                       }
-                                                   }
-                                           }
-                                       }
-                                   }
-                               }
-                           }
-                       }
-                   }
+                
+                if let data = vm.timings?.data?[0].teachers_List {
+                    ForEach(data , id : \.self) { teacher in
+                        ScrollView(.horizontal){
+                            HStack {
+                                if let timeSlots = teacher.timeslots {
+                                    ForEach(timeSlots ,id: \.self) { time in
+                                        
+                                        timingContainer(time: time)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
+

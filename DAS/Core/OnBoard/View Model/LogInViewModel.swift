@@ -23,8 +23,7 @@ struct LogInViewModel{
                 return
             }
             UserDefaults.standard.setValue(data.token, forKey: "token")
-            UserDefaults.standard.setValue(data.id
-                                           , forKey: "roleID")
+            UserDefaults.standard.setValue(data.id, forKey: "roleID")
             UserDefaults.standard.setValue(data.roleName, forKey: "roleName")
             completion(true)
         }

@@ -10,41 +10,24 @@ import Combine
 
 class ApointmentViewModel : ObservableObject {
     @Published var appointments: Appoinments?
-    
+    var cancellables  = Set<AnyCancellable>()
     private let getAllAppointments = GetAppointmentService()
     private var cancellabels = Set<AnyCancellable>()
-  //  @State var loader : Bool = true
-    
+    @State var isLoading : Bool = false    
     init() {
-            self.getAllAppointments.getAppointments { [weak self] result  in
-                switch result {
-                case .success(let appointments) :
-                    self?.appointments = appointments
-              
-                case.failure(let error ) :
-                    self?.appointments = nil
-                    print("error : \(error)")
-                }
-            }
-        
-    //    getAppointments()
+       getAppointments()
     }
     
     func getAppointments() {
-//            $appointments
-//            //.debounce(for: 1.0, scheduler: DispatchQueue.main)
-//            .receive(on: DispatchQueue.main) // Receive values on the main queue
-//            .sink(receiveCompletion: { [weak self] completion in
-//                switch completion {
-//                case .finished:
-//                    print("API request completed successfully")
-//                case .failure(let error):
-//                    print("Error fetching appointments:", error.localizedDescription)
-//                }
-//            }, receiveValue: { [weak self] appointments in
-//                self?.appointments = appointments // Update appointments array
-//            })
-//            .store(in: &cancellabels)
-           
+        getAllAppointments.$appointments
+            .sink {[weak self] (value) in
+                self?.appointments = value
+                self?.isLoading.toggle()
+            }
+            .store(in: &cancellabels)
     }
+        
+
+           
+    
 }

@@ -8,17 +8,15 @@ import SwiftUI
 
 @main
 struct DASApp: App {
-    let vm = Infos()
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                if UserDefaults.standard.value(forKey: "token") as? String != nil {
-                    Appoitments()
-                }else {
-                    LogIn()
-
-                }
-            }
-            }
+                  NavigationStack {
+                      if UserDefaults.standard.value(forKey: "token") is String {
+                          AppointmentsView()
+                      } else {
+                          LogIn()
+                      }
+                  }
+              }
         }
     }

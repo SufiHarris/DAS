@@ -7,57 +7,37 @@
 
 import SwiftUI
 import Foundation
+import Combine
 
 class BookViewModel : ObservableObject {
     
     @Published var wardList : WardList?
     @Published var datesList : Dates?
     @Published var timings : Timings?
-    private let vm : GetWardsList = GetWardsList()
-    
+    private let vm : BookAppointmentService = BookAppointmentService()
+    var cancellabels = Set<AnyCancellable>()
     init() {
-       // print("\(UserDefaults.standard.value(forKey: "roleID")) nahi hai yaha")
-   
-        getChildrenList()
-        getDates()
-        
+        getData()
     }
-    
-    func getChildrenList() {
-        vm.getWardList { result in
-            switch result {
-            case .success(let wardList) :
-                self.wardList = wardList
-            case.failure(let error) :
-                print("error \(error)")
+    func getData() {
+        vm.$wardList
+            .combineLatest(vm.$datesList)
+            .sink {[weak self] (wardList, datesList) in
+                self?.wardList = wardList
+                self?.datesList = datesList
             }
-        }
+            .store(in: &cancellabels)
     }
-    func getDates() {
-        
-        vm.getDatesDetails { result in
-            switch result {
-            case .success(let dateList) :
-                self.datesList = dateList
-            case.failure(let error) :
-                print("error \(error)")
-            }
-
-        }
-    }
-    
-    
-    func getTimings (ptmId: String, childId: String) {
+    func getTimings(ptmId: String, childId: String, completion: @escaping (Error?) -> Void) {
         vm.getTimings(ptmId: ptmId, childId: childId) { result in
             switch result {
-            case .success(let timings) :
-                print(timings.data)
-                self.timings = timings
-                //self.datesList = dateList
-            case.failure(let error) :
-                print("error \(error)")
+            case .success(let data):
+                self.timings = data
+                completion(nil) // No error, so pass nil
+            case .failure(let error):
+                completion(error) // Pass the received error
             }
         }
-        
     }
+
 }

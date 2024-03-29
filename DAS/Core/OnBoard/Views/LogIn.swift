@@ -31,7 +31,7 @@ struct LogIn: View {
                 Password()
             }
             .navigationDestination(isPresented: $showLandingView) {
-                Appoitments()
+                AppointmentsView()
             }
         }
     }
@@ -146,8 +146,12 @@ extension LogIn {
         VStack{
             Button(action: {
                 LogInViewModel().signIn( email: userName, password: password) { success in
-                    if success ==  true {
-                        showLandingView.toggle()
+                    if success ==  true && UserDefaults.standard.value(forKey: "token") as?
+                        String != ""{
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            showLandingView.toggle()
+
+                        }
                     }
                 }
             }, label: {

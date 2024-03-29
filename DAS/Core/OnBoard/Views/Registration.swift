@@ -17,7 +17,6 @@ struct Registration: View {
     let shortHands = ShortHands()
     var body: some View {
         VStack {
-         
             topView
             fieldView
             Spacer()

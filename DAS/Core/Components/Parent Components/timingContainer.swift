@@ -9,8 +9,8 @@ import SwiftUI
 
 struct timingContainer: View {
     
-    let time : Timeslot
-    let isSelected : Bool
+      let time : Timeslot
+//    let isSelected : Bool
     var body: some View {
         HStack {
             Text(time.startTime ?? "")
@@ -29,6 +29,6 @@ struct timingContainer: View {
 }
 
 #Preview {
-    timingContainer(time: Timeslot(timeslotId: 1, status: "Available", startTime: "8:00 am", endTime: "9:00 am", isOwn: false) , isSelected: false
+    timingContainer(time: Timeslot(timeslotId: 1, status: "Available", startTime: "8:00 am", endTime: "9:00 am", isOwn: false) 
     )
 }
