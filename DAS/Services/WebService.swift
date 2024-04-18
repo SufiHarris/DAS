@@ -25,7 +25,7 @@ class WebService {
         request.httpBody = try? JSONEncoder().encode(body)
 
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data , error == nil else { fatalError("error while call on sign in : \(error)") }
+              guard let data = data , error == nil else { fatalError("error while call on sign in : \(String(describing: error))") }
             do {
                // let response = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 let response = try JSONDecoder().decode(SignIn.self, from: data)

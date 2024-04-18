@@ -9,8 +9,13 @@ import SwiftUI
 
 struct SideMenuHeader: View {
     var body: some View {
-        HStack {
+        HStack (alignment: .center) {
             Image("logoBig")
+                .resizable()
+                .frame(width: 150, height: 100)
+                .scaledToFill()
+                //.clipShape(Circle())
+            
         }
     }
 }

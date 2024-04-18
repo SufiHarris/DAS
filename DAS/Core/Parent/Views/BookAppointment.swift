@@ -23,10 +23,12 @@ struct BookAppointment: View {
     @State private var selectedTimeSlots: [Int: Timeslot?] = [:]
     @State private var selectedTeacherID: Int?
     @State private var selectedTimeslotID: Int?
+    @State var showSideMenu : Bool = false
 
     var body: some View {
+    ZStack{
         VStack {
-            Header(title: "Book Appointment")
+            Header(title: "Book Appointment", showSideMenu: $showSideMenu)
                 .padding(.top , 0)
             BookButton(title: "Book")
                 .padding(.leading ,  UIScreen.main.bounds.width / 2)
@@ -38,13 +40,13 @@ struct BookAppointment: View {
                                 Text((data.firstName ?? "") + ((data.lastName ?? ""))).tag((data.firstName ?? "") + ((data.lastName ?? "")))
                             }
                         }
-                         
+                        
                     } label: {
                         
                     }
                     .onChange(of: ward) { _ in
                         getDatesToSelect()
-                                   }
+                    }
                 } label: {
                     HStack (spacing : 20) {
                         Text("\(ward)")
@@ -56,13 +58,13 @@ struct BookAppointment: View {
                     }
                     
                 }
-                 Spacer()
+                Spacer()
                 
                 Menu {
                     Picker(selection: $date) {
                         if let list = vm.datesList?.data {
                             ForEach(list, id: \.self) { data in
-                                Text(data.ptmDate ?? "").tag(data.ptmDate ?? "")
+                                Text(data.ptmDate?.extractDateDetails() ?? "").tag(data.ptmDate ?? "")
                             }
                         }
                     }
@@ -88,7 +90,7 @@ struct BookAppointment: View {
             .padding(.horizontal , 20)
             
             
-          //  guard let data = vm.timings?.data?[0].teachers_List else { return }
+            //  guard let data = vm.timings?.data?[0].teachers_List else { return }
             
             Divider()
                 .padding(.top , 20)
@@ -102,7 +104,7 @@ struct BookAppointment: View {
                     
                     Image(systemName: "chevron.down")
                     Text("Break Time")
-               
+                    
                 }
                 .font(.caption)
             }
@@ -114,6 +116,12 @@ struct BookAppointment: View {
             bookingView
             Spacer()
         }
+        if showSideMenu {
+            SideMenu(isShowing: $showSideMenu)
+                .transition(.move(edge: .trailing))
+                .animation(.easeInOut(duration: 0.2))
+        }
+    }
         .alert(isPresented: $showError) {
             Alert(title: Text("No date found") ,message : Text("There is no PTM for this ward on this date.Please try to select a different date or ward.") ,dismissButton: .cancel())
                    }

@@ -19,18 +19,18 @@ struct AppointmentRow: View {
                    LazyVStack(spacing: 10) {
                        ForEach(data.prefix(showMore ? data.count : maxVisibleAppointments), id: \.self) { timeSlot in
                            HStack(alignment: .top, spacing: UIScreen.main.bounds.width / 10) {
-                               Text(timeSlot.startTime)
+                               Text(timeSlot.startTime ?? "00:00")
                                    .font(.subheadline)
                                    //.frame(width: UIScreen.main.bounds.width / 4, alignment: .leading)
                                
                                VStack(alignment: .leading) {
-                                   Text(timeSlot.teacherName)
+                                   Text(timeSlot.teacherName ?? " ")
                                        .font(.footnote)
-                                   Text(timeSlot.status)
+                                   Text(timeSlot.status ?? "Offline")
                                        .foregroundStyle(.white)
                                        .font(.caption2)
                                        .padding(6)
-                                       .background(statusColor(for: timeSlot.status))
+                                       .background(statusColor(for: timeSlot.status ?? "offline"))
                                        .clipShape(RoundedRectangle(cornerRadius: 10))
                                        .lineLimit(1)
                                }
@@ -76,9 +76,11 @@ extension AppointmentRow {
            case "Upcoming":
                return Color.yellow
            case "Concluded":
-               return Color.blue
+               return Color.green
            case "Missed" :
                return Color.gray.opacity(0.5)
+           case "Unmarked" :
+               return Color.black.opacity(0.5)
            default:
                return Color.green
            }

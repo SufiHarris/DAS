@@ -16,7 +16,7 @@ struct AppointmentCard: View {
     var body: some View {
         VStack {
                  HStack {
-                     Text("\(data.childName)")
+                     Text(data.childName ?? "abc")
                          .font(.title3)
                      Spacer()
                      Menu {
@@ -43,19 +43,19 @@ struct AppointmentCard: View {
                  .padding(.vertical)
                 
                 HStack {
-                    LogoText(icon: "calendar", text: data.ptmDate.extractDateDetailsWithTime() ?? "")
+                    LogoText(icon: "calendar", text: data.ptmDate?.extractDateDetailsWithTime() ?? "")
                     Spacer()
                     Divider()
                         .bold()
                         .frame(height: 20)
                     Spacer()
-                    LogoText(icon: "clock", text: "\(data.duration) Min Each")
+                    LogoText(icon: "clock", text: "\(data.duration ??  "0") Min Each")
                     Spacer()
                     Divider()
                         .bold()
                         .frame(height: 20)
                     Spacer()
-                    LogoText(icon: "video", text: data.isActve ? "Online" : "Offline")
+                    LogoText(icon: "video", text: data.isActve ?? false ? "Online" : "Offline")
                     
                 }
                 .padding(.bottom)

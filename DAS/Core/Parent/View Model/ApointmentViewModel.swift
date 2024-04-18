@@ -21,14 +21,9 @@ class ApointmentViewModel : ObservableObject {
     func getAppointments() {
         getAllAppointments.$appointments
             .sink {[weak self] (value) in
-                print(value)
                 self?.appointments = value
                 self?.isLoading.toggle()
             }
             .store(in: &cancellabels)
     }
-        
-
-           
-    
 }

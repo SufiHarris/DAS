@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F02F1A2B2BCFAD730097E878 /* LogoAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02F1A2A2BCFAD730097E878 /* LogoAnimation.swift */; };
 		F05214D02BAC404600270BB4 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05214CF2BAC404600270BB4 /* LogIn.swift */; };
 		F05214D42BAC407900270BB4 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05214D32BAC407900270BB4 /* LogInViewModel.swift */; };
 		F05214DB2BAC40D500270BB4 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05214DA2BAC40D500270BB4 /* Registration.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F02F1A2A2BCFAD730097E878 /* LogoAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoAnimation.swift; sourceTree = "<group>"; };
 		F05214CF2BAC404600270BB4 /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		F05214D32BAC407900270BB4 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		F05214DA2BAC40D500270BB4 /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			children = (
 				F0A816CC2BB57A610085CF4C /* SideMenu.swift */,
 				F0A816CE2BB57B180085CF4C /* SideMenuHeader.swift */,
+				F02F1A2A2BCFAD730097E878 /* LogoAnimation.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0A816CD2BB57A610085CF4C /* SideMenu.swift in Sources */,
+				F02F1A2B2BCFAD730097E878 /* LogoAnimation.swift in Sources */,
 				F0EF30012BAC601000BFC9AA /* WebService.swift in Sources */,
 				F0BEF4812BB182B2004EB9F6 /* Service.swift in Sources */,
 				F05214D02BAC404600270BB4 /* LogIn.swift in Sources */,

@@ -39,7 +39,6 @@ class GetAppointmentService : ObservableObject {
                 switch completion {
                 case .finished:
                     // Handle successful completion
-                    print()
                     break
                 case .failure(let error):
                     // Handle failure

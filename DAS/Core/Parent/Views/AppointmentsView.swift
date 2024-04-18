@@ -9,47 +9,60 @@ import SwiftUI
 struct AppointmentsView: View {
     @StateObject private var vm =  ApointmentViewModel()
     @State private var isBookAppointmentShown = false
+    @State var showSideMenu = false
     
     var body: some View {
-        VStack {
-           Header(title: "Appointments")
-            BookButton(title: "Book Appointment")
-                .padding(.leading, UIScreen.main.bounds.width - 200)
-                .onTapGesture {
-                    isBookAppointmentShown.toggle()
-                }
-            
-            if vm.isLoading {
-                // Show progress view while data is loading
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                if let data = vm.appointments?.data {
-                    if data.isEmpty {
-                        // Show empty state view
-                        VStack {
-                            Divider()
-                            Spacer()
-                          NoAppointment()
-                            .padding(.bottom, UIScreen.main.bounds.height / 4)
-                        }
-                    } else {
-                        // Show appointments data
-                        ScrollView {
-                            LazyVStack {
-                                ForEach(data) { appointment in
-                                    AppointmentCard(data: appointment)
+        ZStack{
+            VStack {
+                Header(title: "Appointments", showSideMenu: $showSideMenu)
+                BookButton(title: "Book Appointment")
+                    .padding(.leading, UIScreen.main.bounds.width - 200)
+                    .onTapGesture {
+                        isBookAppointmentShown.toggle()
+                    }
+                
+                if vm.isLoading {
+                    // Show progress view while data is loading
+                        ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    if let data = vm.appointments?.data {
+                        if data.isEmpty {
+                            // Show empty state view
+                            VStack {
+                                Divider()
+                                Spacer()
+                                NoAppointment()
+                                    .padding(.bottom, UIScreen.main.bounds.height / 4)
+                            }
+                        } else {
+                            // Show appointments data
+                            ScrollView {
+                                LazyVStack {
+                                    ForEach(data) { appointment in
+                                        AppointmentCard(data: appointment)
+                                    }
+                                    .padding(.horizontal)
                                 }
-                                .padding(.horizontal)
                             }
                         }
+                    } else {
+                        // Show error view
+                        Spacer()
+                        ProgressView()
+//                        VStack {
+//                            Image("noAppointment")
+//                            Text("No Appointment Found ")
+//                                .bold()
+//                            .foregroundStyle(Color.accentColor)                        }
+                        Spacer()
                     }
-                } else {
-                    // Show error view
-                    Spacer()
-                    ProgressView()
-                    Spacer()
                 }
+            }
+            if showSideMenu {
+                SideMenu(isShowing: $showSideMenu)
+                    .transition(.move(edge: .trailing))
+                    .animation(.easeInOut(duration: 0.2))
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -57,14 +70,13 @@ struct AppointmentsView: View {
         .navigationDestination(isPresented: $isBookAppointmentShown) {
             DAS.BookAppointment()
         }
-   
+        
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+            
+            }
+        }
     }
       
 }
-//
-//extension Appoinments {
-//    
-//     var noDataView : some View {
-//    }
-//    
-//}
+

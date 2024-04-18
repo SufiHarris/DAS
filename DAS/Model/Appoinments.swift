@@ -18,11 +18,11 @@ struct Appoinments : Codable {
 
 // MARK: - Datum
 struct Datum : Codable , Identifiable {
-    let id: Int
-    let meetingType: String
+    let id: Int?
+    let meetingType: String?
     let ptmID: Int?
-    let ptmDate, duration, childName: String
-    let isActve: Bool
+    let ptmDate, duration, childName: String?
+    let isActve: Bool?
     let childID: Int?
     let timeslotDates: [TimeslotDate]?
 }
@@ -30,12 +30,12 @@ struct Datum : Codable , Identifiable {
 // MARK: - TimeslotDate
 struct TimeslotDate : Codable , Hashable {
     let timeslotID: Int?
-    let status: String
-    let startTime, endTime: String
-    let teacherName: String
-    let isActive: Bool
+    let status: String?
+    let startTime, endTime: String?
+    let teacherName: String?
+    let isActive: Bool?
     let joinURL: String?
-    let location: String
+    let location: String?
 }
 
 enum Status: String ,Codable {
